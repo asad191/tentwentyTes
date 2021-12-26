@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Dashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:id="@+id/dashboard"
+        />
+    <item android:title="Watch"
+        android:icon="@drawable/ic_watch"
+        android:id="@+id/watch"
+        />
+    <item android:title="Media Library"
+        android:icon="@drawable/ic_library"
+        android:id="@+id/library"/>
+    <item android:title="Media More"
+        android:icon="@drawable/ic_media_more"
+        android:id="@+id/media_more"/>
+</menu>
