@@ -1,19 +1,18 @@
 package com.tenTwenty.testapp.ui.watch
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tenTwenty.testapp.R
 import com.tenTwenty.testapp.appUtil.AppConstant
 import com.tenTwenty.testapp.databinding.FragmentFeatureBinding
 import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.Results
 import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.UpcommingMovieResponse
+import com.tenTwenty.testapp.ui.watch.adapter.WatchMovieAdapter
 import com.tenTwenty.testapp.webServices.ApiInterface
 import com.tenTwenty.testapp.webServices.RetrofitSingleTon
 import retrofit2.Call
@@ -29,7 +28,24 @@ class FragmentFeature : Fragment() {
 
     private var param1: String? = null
     private var param2: String? = null
-    private var featureMovies:ArrayList<Results> = arrayListOf()
+    private var   watchMovieAdapter:WatchMovieAdapter? = null
+    private val featureMovies:ArrayList<Results> = arrayListOf()
+    private val PAGE_START = 1
+    var loading = true
+    var pastVisiblesItems: Int =0
+    var visibleItemCount: Int =0
+    var totalItemCount: Int=0
+
+
+    private val isLoading = false
+
+
+    private val isLastPage = false
+
+
+    private val TOTAL_PAGES = 3
+
+    private var currentPage = 1
 
     private lateinit var binding:FragmentFeatureBinding
 
@@ -49,13 +65,43 @@ class FragmentFeature : Fragment() {
 
         binding = FragmentFeatureBinding.inflate(inflater, container, false)
 //        return inflater.inflate(R.layout.fragment_feature, container, false)
+        setUpRev()
+        upcomingMovieCall(currentPage)
+
+
+
+
+
 
   return binding.root
     }
 
     private  fun setUpRev(){
-        binding.rvWatch.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
 
+        val mLayoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
+        binding.rvWatch.layoutManager = mLayoutManager
+
+        watchMovieAdapter = WatchMovieAdapter()
+        binding.rvWatch.adapter = watchMovieAdapter!!
+
+        binding.rvWatch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) { //check for scroll down
+                    visibleItemCount = mLayoutManager.getChildCount()
+                    totalItemCount = mLayoutManager.getItemCount()
+                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition()
+                    if (loading) {
+                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                            loading = false
+                            currentPage +=1
+                            upcomingMovieCall(currentPage)
+
+                            loading = true
+                        }
+                    }
+                }
+            }
+        })
 
     }
 
@@ -82,8 +128,8 @@ class FragmentFeature : Fragment() {
                 if (response.isSuccessful){
 
                     if (!response.body()?.results!!.isEmpty()){
-                        featureMovies.clear()
-                        featureMovies.addAll((response.body()?.results!!))
+                        watchMovieAdapter?.setMoviellST(response.body()?.results!!)
+
                     }
                     else{
 
@@ -106,5 +152,7 @@ class FragmentFeature : Fragment() {
 
 
     }
+
+
 
 }
