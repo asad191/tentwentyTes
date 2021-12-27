@@ -14,6 +14,7 @@ import com.tenTwenty.testapp.appUtil.AppConstant
 import com.tenTwenty.testapp.databinding.FragmentFeatureBinding
 import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.Results
 import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.UpcommingMovieResponse
+import com.tenTwenty.testapp.ui.watch.adapter.WatchMovieAdapter
 import com.tenTwenty.testapp.webServices.ApiInterface
 import com.tenTwenty.testapp.webServices.RetrofitSingleTon
 import retrofit2.Call
@@ -29,8 +30,10 @@ class FragmentFeature : Fragment() {
 
     private var param1: String? = null
     private var param2: String? = null
-    private var featureMovies:ArrayList<Results> = arrayListOf()
+    var loading = true
+    private  var pageNo = 1
 
+private lateinit var watchMovieAdapter: WatchMovieAdapter
     private lateinit var binding:FragmentFeatureBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,13 +52,40 @@ class FragmentFeature : Fragment() {
 
         binding = FragmentFeatureBinding.inflate(inflater, container, false)
 //        return inflater.inflate(R.layout.fragment_feature, container, false)
+        setUpRev()
 
+        upcomingMovieCall(pageNo)
   return binding.root
     }
 
     private  fun setUpRev(){
-        binding.rvWatch.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
+        val mlayoutManger = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
+        binding.rvWatch.layoutManager = mlayoutManger
+        watchMovieAdapter = WatchMovieAdapter()
+        binding.rvWatch.adapter = watchMovieAdapter
 
+
+        var pastVisiblesItems: Int
+        var visibleItemCount: Int
+        var totalItemCount: Int
+
+        binding.rvWatch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) { //check for scroll down
+                    visibleItemCount = mlayoutManger.getChildCount()
+                    totalItemCount = mlayoutManger.getItemCount()
+                    pastVisiblesItems = mlayoutManger.findFirstVisibleItemPosition()
+                    if (loading) {
+                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                            loading = false
+                            pageNo += 1
+                            upcomingMovieCall(pageNo)
+
+                        }
+                    }
+                }
+            }
+        })
 
     }
 
@@ -79,11 +109,12 @@ class FragmentFeature : Fragment() {
 
         call.enqueue(object : Callback<UpcommingMovieResponse> {
             override fun onResponse(call: Call<UpcommingMovieResponse>, response: Response<UpcommingMovieResponse>) {
+                binding.pbLoading.visibility = View.GONE
                 if (response.isSuccessful){
 
                     if (!response.body()?.results!!.isEmpty()){
-                        featureMovies.clear()
-                        featureMovies.addAll((response.body()?.results!!))
+                        watchMovieAdapter.setData(response.body()?.results!!)
+                        loading = true
                     }
                     else{
 

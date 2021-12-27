@@ -1,9 +1,13 @@
 package com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel
 
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 import com.google.gson.annotations.SerializedName
+import com.tenTwenty.testapp.appUtil.AppConstant
 
 
- open class Results  {
+open class Results  {
 
     @SerializedName("adult")
     var adult: Boolean? = null
@@ -33,4 +37,13 @@ import com.google.gson.annotations.SerializedName
     var voteAverage: Double? = null
     @SerializedName("vote_count")
     var voteCount: Int? = null
+
+    companion object {
+
+       @JvmStatic
+       @BindingAdapter("imageUrl")
+       fun loadImage(view: ImageView, url: String) { // This methods should not have any return type, = declaration would make it return that object declaration.
+          Glide.with(view.context).load(AppConstant.IMAGE_BASE_URL+url).into(view)
+       }
+    }
 }
