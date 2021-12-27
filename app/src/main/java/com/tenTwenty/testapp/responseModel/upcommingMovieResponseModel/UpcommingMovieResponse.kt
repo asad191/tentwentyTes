@@ -6,7 +6,7 @@ import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.Results
 
 data class UpcommingMovieResponse (
 
-    @SerializedName("dates"         ) var dates        : Dates?             = Dates(),
+    @SerializedName("dates" ) var dates        : Dates?             = Dates(),
     @SerializedName("page"          ) var page         : Int?               = null,
     @SerializedName("results"       ) var results      : ArrayList<Results> = arrayListOf(),
     @SerializedName("total_pages"   ) var totalPages   : Int?               = null,

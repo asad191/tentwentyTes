@@ -5,10 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tenTwenty.testapp.R
+import com.tenTwenty.testapp.appUtil.AppConstant
 import com.tenTwenty.testapp.databinding.FragmentFeatureBinding
+import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.Results
+import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.UpcommingMovieResponse
+import com.tenTwenty.testapp.webServices.ApiInterface
+import com.tenTwenty.testapp.webServices.RetrofitSingleTon
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 private const val ARG_PARAM1 = "param1"
@@ -19,6 +29,7 @@ class FragmentFeature : Fragment() {
 
     private var param1: String? = null
     private var param2: String? = null
+    private var featureMovies:ArrayList<Results> = arrayListOf()
 
     private lateinit var binding:FragmentFeatureBinding
 
@@ -59,4 +70,41 @@ class FragmentFeature : Fragment() {
                 }
             }
     }
+
+
+    fun upcomingMovieCall(page :Int){
+
+        val request = RetrofitSingleTon.buildService(ApiInterface::class.java)
+        val call = request.upcommingMovie(AppConstant.API_KEY,page)
+
+        call.enqueue(object : Callback<UpcommingMovieResponse> {
+            override fun onResponse(call: Call<UpcommingMovieResponse>, response: Response<UpcommingMovieResponse>) {
+                if (response.isSuccessful){
+
+                    if (!response.body()?.results!!.isEmpty()){
+                        featureMovies.clear()
+                        featureMovies.addAll((response.body()?.results!!))
+                    }
+                    else{
+
+                        Toast.makeText(context, "Data not found", Toast.LENGTH_SHORT).show()
+                    }
+
+
+
+                }
+
+                else{
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<UpcommingMovieResponse>, t: Throwable) {
+                t.printStackTrace()
+                Toast.makeText(context, "Connection Error", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+    }
+
 }
