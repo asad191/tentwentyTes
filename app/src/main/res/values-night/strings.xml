@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="get_tickets">Get Tickets</string>
+    <string name="watch_trailer">Watch Trailer</string>
+    <string name="in_theaters_december_22_2021">In theaters december 22, 2021</string>
+    <string name="back">Back</string>
+    <string name="genres">Genres</string>
+    <string name="overview">Overview</string>
+</resources>

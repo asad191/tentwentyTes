@@ -14,8 +14,8 @@ class WatchMovieAdapter(): RecyclerView.Adapter<WatchMovieAdapter.ViewHolder>() 
     val movies:ArrayList<Results> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(movies:ArrayList<Results>){
-        this.movies.addAll(movies)
+    fun setData(movies:Results){
+        this.movies.add(movies)
         notifyDataSetChanged()
     }
 
@@ -39,12 +39,12 @@ class WatchMovieAdapter(): RecyclerView.Adapter<WatchMovieAdapter.ViewHolder>() 
         fun bind(model:Results){
             binding.model = model
 
-            with(binding){
-            tvVideoTitle.text = model.title
-
-                Glide.with(itemView.context).load(AppConstant.IMAGE_BASE_URL+model.backdropPath).into(ivThumbnail)
-
-            }
+//            with(binding){
+//            tvVideoTitle.text = model.title
+//
+//                Glide.with(itemView.context).load(AppConstant.IMAGE_BASE_URL+model.backdropPath).into(ivThumbnail)
+//
+//            }
         }
     }
 }

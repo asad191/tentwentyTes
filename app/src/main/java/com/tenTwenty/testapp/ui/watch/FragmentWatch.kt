@@ -6,20 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
+
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tenTwenty.testapp.R
 import com.tenTwenty.testapp.appUtil.AppConstant
 import com.tenTwenty.testapp.databinding.FragmentFeatureBinding
+import com.tenTwenty.testapp.genericModel.Status
 import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.Results
-import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.UpcommingMovieResponse
 import com.tenTwenty.testapp.ui.watch.adapter.WatchMovieAdapter
-import com.tenTwenty.testapp.webServices.ApiInterface
+import com.tenTwenty.testapp.webServices.WebSerivces
 import com.tenTwenty.testapp.webServices.RetrofitSingleTon
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 private const val ARG_PARAM1 = "param1"
@@ -27,10 +25,10 @@ private const val ARG_PARAM2 = "param2"
 
 
 class FragmentFeature : Fragment() {
-
+    lateinit var viewModel: WatchViewModel
     private var param1: String? = null
     private var param2: String? = null
-    var loading = true
+    var loading = false
     private  var pageNo = 1
 
 private lateinit var watchMovieAdapter: WatchMovieAdapter
@@ -42,50 +40,36 @@ private lateinit var watchMovieAdapter: WatchMovieAdapter
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        if(requireActivity()!=null){
+            setupViewModel()
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
 
         binding = FragmentFeatureBinding.inflate(inflater, container, false)
 //        return inflater.inflate(R.layout.fragment_feature, container, false)
-        setUpRev()
+        setUpUi()
 
-        upcomingMovieCall(pageNo)
+
+
+
+        setUpObserver()
+
   return binding.root
     }
 
-    private  fun setUpRev(){
+    private  fun setUpUi(){
         val mlayoutManger = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
         binding.rvWatch.layoutManager = mlayoutManger
         watchMovieAdapter = WatchMovieAdapter()
         binding.rvWatch.adapter = watchMovieAdapter
 
-
-        var pastVisiblesItems: Int
-        var visibleItemCount: Int
-        var totalItemCount: Int
-
-        binding.rvWatch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) { //check for scroll down
-                    visibleItemCount = mlayoutManger.getChildCount()
-                    totalItemCount = mlayoutManger.getItemCount()
-                    pastVisiblesItems = mlayoutManger.findFirstVisibleItemPosition()
-                    if (loading) {
-                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
-                            loading = false
-                            pageNo += 1
-                            upcomingMovieCall(pageNo)
-
-                        }
-                    }
-                }
-            }
-        })
 
     }
 
@@ -102,40 +86,54 @@ private lateinit var watchMovieAdapter: WatchMovieAdapter
     }
 
 
-    fun upcomingMovieCall(page :Int){
-
-        val request = RetrofitSingleTon.buildService(ApiInterface::class.java)
-        val call = request.upcommingMovie(AppConstant.API_KEY,page)
-
-        call.enqueue(object : Callback<UpcommingMovieResponse> {
-            override fun onResponse(call: Call<UpcommingMovieResponse>, response: Response<UpcommingMovieResponse>) {
-                binding.pbLoading.visibility = View.GONE
-                if (response.isSuccessful){
-
-                    if (!response.body()?.results!!.isEmpty()){
-                        watchMovieAdapter.setData(response.body()?.results!!)
-                        loading = true
-                    }
-                    else{
-
-                        Toast.makeText(context, "Data not found", Toast.LENGTH_SHORT).show()
-                    }
+    private fun setupViewModel() {
 
 
-
-                }
-
-                else{
-                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                }
-            }
-            override fun onFailure(call: Call<UpcommingMovieResponse>, t: Throwable) {
-                t.printStackTrace()
-                Toast.makeText(context, "Connection Error", Toast.LENGTH_SHORT).show()
-            }
-        })
-
+        viewModel = ViewModelProvider(requireActivity(), WatchViewModelFactory(WatchRepo(RetrofitSingleTon.buildService(WebSerivces::class.java)))).get(WatchViewModel::class.java)
+//
 
     }
+
+    private fun setUpObserver() {
+
+        viewModel.getUpcomingMovie(AppConstant.API_KEY,pageNo).observe(requireActivity(), Observer {
+
+            it?.let { resource ->
+                when (resource.status) {
+
+                    Status.SUCCESS -> {
+                        showProgress(false)
+                        resource.data?.let { upcomingMvieResponse ->setDataToList(upcomingMvieResponse.body()!!?.results) }
+                    }
+                    Status.ERROR -> {
+                        showProgress(false)
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    }
+                    Status.LOADING -> {
+                        showProgress(true)
+                    }
+                }
+
+            }
+        })
+    }
+
+    private fun setDataToList(users: List<Results>) {
+        if (users.size > 0) {
+            users.forEach {
+                watchMovieAdapter.setData(it)
+            }
+        }
+    }
+
+    private fun showProgress(status: Boolean) {
+        if (status) {
+            binding.pbLoading.visibility = View.VISIBLE
+        } else {
+            binding.pbLoading.visibility = View.GONE
+        }
+
+}
+
 
 }

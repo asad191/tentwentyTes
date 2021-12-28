@@ -42,8 +42,10 @@ open class Results  {
 
        @JvmStatic
        @BindingAdapter("imageUrl")
-       fun loadImage(view: ImageView, url: String) { // This methods should not have any return type, = declaration would make it return that object declaration.
-          Glide.with(view.context).load(AppConstant.IMAGE_BASE_URL+url).into(view)
+       fun loadImage(view: ImageView, url: String) {
+           if(url != null) {
+               Glide.with(view.context).load(AppConstant.IMAGE_BASE_URL + url).into(view)
+           }
        }
     }
 }

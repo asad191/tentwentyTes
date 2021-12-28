@@ -6,4 +6,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="get_tickets">Get Tickets</string>
+    <string name="watch_trailer">Watch Trailer</string>
+    <string name="in_theaters_december_22_2021">In theaters december 22, 2021</string>
+    <string name="back">Back</string>
+    <string name="genres">Genres</string>
+    <string name="overview">Overview</string>
 </resources>

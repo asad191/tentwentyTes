@@ -40,10 +40,10 @@
 
         <ImageView
             android:id="@+id/ivThumbnail"
+            imageUrl='@{model.backdropPath != null ? model.backdropPath : ""}'
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            imageUrl="@{model.backdropPath}"
             tools:srcCompat="@tools:sample/avatars" />
 
 
