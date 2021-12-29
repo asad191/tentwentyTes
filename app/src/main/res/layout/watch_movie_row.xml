@@ -50,16 +50,16 @@
         <TextView
             android:id="@+id/tvVideoTitle"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:textSize="@dimen/primary_text_size"
+            android:fontFamily="@font/poppins_regular"
+          android:layout_margin="20dp"
 
-            android:lineSpacingMultiplier="0.75"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="3dp"
+
             android:text="@{model.title}"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+   />
 
 
 

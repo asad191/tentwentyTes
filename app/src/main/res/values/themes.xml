@@ -16,7 +16,15 @@
         <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
     </style>
 
+    <style name="FullScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
 
+
+    </style>
     <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">10sp</item>
     </style>
@@ -24,6 +32,12 @@
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">10sp</item>
     </style>
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <item name="android:textSize">12sp</item>
+    </style>
 
+    <style name="Theme.WhiteAccent" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorAccent">@color/prim</item> <!-- Whatever color you want-->
+    </style>
 
 </resources>

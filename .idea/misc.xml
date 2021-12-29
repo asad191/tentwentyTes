@@ -3,15 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/US TRADERS/.gradle/caches/transforms-3/0a32ace5267a03aabcc47694a574f0da/transformed/jetified-exoplayer-ui-2.13.3/res/layout/exo_player_control_view.xml" value="0.11" />
         <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/drawable/ic_dashboard.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/drawable/ic_watch.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/drawable/round_rect.xml" value="0.13425925925925927" />
-        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/activity_main.xml" value="0.15" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/drawable/search_back.xml" value="0.1685185185185185" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout-land/activity_movie_details.xml" value="0.12" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/activity_main.xml" value="0.30781010719754975" />
         <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/activity_main2.xml" value="0.14791666666666667" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/activity_movie_details.xml" value="0.16" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/exo_player_control_new.xml" value="0.1" />
         <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.14791666666666667" />
-        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_feature.xml" value="0.12" />
-        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_movie_details.xml" value="0.16" />
-        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/watch_movie_row.xml" value="0.14" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_feature.xml" value="0.15" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_home.xml" value="0.1171875" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_movie_details.xml" value="0.22" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_movie_search.xml" value="0.2" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_notifications.xml" value="0.17083333333333334" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/fragment_video_player.xml" value="0.2" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/genres_row.xml" value="0.5" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/player_view.xml" value="0.1" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/search_row.xml" value="0.25" />
+        <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/layout/watch_movie_row.xml" value="0.33" />
         <entry key="..\:/Users/US TRADERS/AndroidStudioProjects/TestApp/app/src/main/res/menu/bottom_nav.xml" value="0.16" />
         <entry key="..\:/android_repo/tentwentyTes/app/src/main/res/layout/activity_main.xml" value="0.14947916666666666" />
         <entry key="..\:/android_repo/tentwentyTes/app/src/main/res/layout/fragment_feature.xml" value="0.14947916666666666" />

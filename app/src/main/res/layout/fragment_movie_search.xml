@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:id="@+id/sv"
+        android:queryBackground="@android:color/transparent"
+        app:theme="@style/AppSearchView"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:queryHint="TV shows, movies and more"
+        android:layout_gravity="center"
+        android:background="@drawable/search_back"
+        android:layout_height="52dp"/>
+
+    <ProgressBar
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/pb"
+        android:theme="@style/Theme.WhiteAccent"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:id="@+id/rvSearch"
+        tools:listitem="@layout/search_row"
+        android:layout_height="wrap_content"/>
+
+
+
+
+</LinearLayout>

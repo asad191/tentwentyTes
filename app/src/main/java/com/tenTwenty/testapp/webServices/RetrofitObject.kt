@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-object RetrofitSingleTon {
+object RetrofitObject {
 
 
 

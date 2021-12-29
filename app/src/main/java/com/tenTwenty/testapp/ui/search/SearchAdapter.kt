@@ -1,25 +1,28 @@
-package com.tenTwenty.testapp.ui.watch.adapter
+package com.tenTwenty.testapp.ui.search
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.tenTwenty.testapp.databinding.SearchRowBinding
 import com.tenTwenty.testapp.databinding.WatchMovieRowBinding
-import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.Results
+import com.tenTwenty.testapp.responseModel.searchMovieResponse.Results
 
-class WatchMovieAdapter(val listener: WatchListener): RecyclerView.Adapter<WatchMovieAdapter.ViewHolder>() {
+
+class SearchAdapter(val listener: SearchListener): RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     val movies:ArrayList<Results> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(movies:Results){
-        this.movies.add(movies)
+    fun setData(movies:List<Results>){
+        this.movies.clear()
+        this.movies.addAll(movies)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding:WatchMovieRowBinding = WatchMovieRowBinding.inflate(inflater)
+         val binding:SearchRowBinding = SearchRowBinding.inflate(inflater)
         return  ViewHolder(binding)
     }
 
@@ -29,12 +32,13 @@ class WatchMovieAdapter(val listener: WatchListener): RecyclerView.Adapter<Watch
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+       return movies.size
     }
 
-    inner class ViewHolder(val binding:WatchMovieRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding:SearchRowBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model:Results){
+
             binding.model = model
             itemView.setOnClickListener {
                 if(adapterPosition != RecyclerView.NO_POSITION){
@@ -44,7 +48,7 @@ class WatchMovieAdapter(val listener: WatchListener): RecyclerView.Adapter<Watch
         }
     }
 
-    interface  WatchListener{
+    interface  SearchListener{
 
         fun onItemClicked(model:Results)
     }

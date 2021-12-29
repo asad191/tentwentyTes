@@ -1,5 +1,6 @@
 package com.tenTwenty.testapp.ui.watch
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,16 +16,18 @@ import com.tenTwenty.testapp.appUtil.AppConstant
 import com.tenTwenty.testapp.databinding.FragmentFeatureBinding
 import com.tenTwenty.testapp.genericModel.Status
 import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.Results
+import com.tenTwenty.testapp.ui.movieDetail.MovieDetailsActivity
+
 import com.tenTwenty.testapp.ui.watch.adapter.WatchMovieAdapter
 import com.tenTwenty.testapp.webServices.WebSerivces
-import com.tenTwenty.testapp.webServices.RetrofitSingleTon
+import com.tenTwenty.testapp.webServices.RetrofitObject
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class FragmentFeature : Fragment() {
+class FragmentFeature : Fragment(), WatchMovieAdapter.WatchListener {
     lateinit var viewModel: WatchViewModel
     private var param1: String? = null
     private var param2: String? = null
@@ -67,7 +70,7 @@ private lateinit var watchMovieAdapter: WatchMovieAdapter
     private  fun setUpUi(){
         val mlayoutManger = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
         binding.rvWatch.layoutManager = mlayoutManger
-        watchMovieAdapter = WatchMovieAdapter()
+        watchMovieAdapter = WatchMovieAdapter(this)
         binding.rvWatch.adapter = watchMovieAdapter
 
 
@@ -89,14 +92,14 @@ private lateinit var watchMovieAdapter: WatchMovieAdapter
     private fun setupViewModel() {
 
 
-        viewModel = ViewModelProvider(requireActivity(), WatchViewModelFactory(WatchRepo(RetrofitSingleTon.buildService(WebSerivces::class.java)))).get(WatchViewModel::class.java)
-//
+        viewModel = ViewModelProvider(requireActivity(), WatchViewModelFactory(WatchRepo(RetrofitObject.buildService(WebSerivces::class.java),requireContext()))).get(WatchViewModel::class.java)
+
 
     }
 
     private fun setUpObserver() {
 
-        viewModel.getUpcomingMovie(AppConstant.API_KEY,pageNo).observe(requireActivity(), Observer {
+        viewModel.getUpcomingMovieRemote(AppConstant.API_KEY,pageNo).observe(requireActivity(), Observer {
 
             it?.let { resource ->
                 when (resource.status) {
@@ -118,9 +121,9 @@ private lateinit var watchMovieAdapter: WatchMovieAdapter
         })
     }
 
-    private fun setDataToList(users: List<Results>) {
-        if (users.size > 0) {
-            users.forEach {
+    private fun setDataToList(movies: List<Results>) {
+        if (movies.size > 0) {
+            movies.forEach {
                 watchMovieAdapter.setData(it)
             }
         }
@@ -134,6 +137,13 @@ private lateinit var watchMovieAdapter: WatchMovieAdapter
         }
 
 }
+
+    override fun onItemClicked(model: Results) {
+
+        val  intent:Intent = Intent(requireContext(),MovieDetailsActivity::class.java)
+        intent.putExtra("id",model.id)
+        startActivity(intent)
+    }
 
 
 }

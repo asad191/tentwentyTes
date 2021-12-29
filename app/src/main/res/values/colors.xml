@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="prim">#2E2739</color>
-
+    <color name="aqua">#15D2BC</color>
+    <color name="pink">#E26CA5</color>
+    <color name="dark_blue">#564CA3</color>
+    <color name="orange">#CD9D0F</color>
 </resources>

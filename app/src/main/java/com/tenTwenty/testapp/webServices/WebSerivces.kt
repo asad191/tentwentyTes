@@ -2,6 +2,8 @@ package com.tenTwenty.testapp.webServices
 
 
 import com.tenTwenty.testapp.responseModel.imagesResponse.ImagesResponse
+import com.tenTwenty.testapp.responseModel.movieDetail.MovieDetailsResponse
+import com.tenTwenty.testapp.responseModel.searchMovieResponse.SearchMovieResponse
 import com.tenTwenty.testapp.responseModel.upcommingMovieResponseModel.UpcommingMovieResponse
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -35,12 +37,17 @@ interface WebSerivces {
             Call<ImagesResponse>
 
     @GET("3/movie/{id}")
-    fun movieDetail(
+  suspend  fun movieDetail(
         @Path("id") id: Int,
         @Query("api_key") key: String
     ):
-           Response<ImagesResponse>
-
+           Response<MovieDetailsResponse>
+    @GET("3/search/movie")
+    suspend  fun movieSearch(
+        @Query("query") query: String,
+        @Query("api_key") key: String
+    ):
+            Response<SearchMovieResponse>
 
 
 }
